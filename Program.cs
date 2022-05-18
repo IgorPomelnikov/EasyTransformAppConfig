@@ -14,9 +14,12 @@ namespace EasyTransformConfig
                 // write an error message
                 return;
 
-            if (!File.Exists("App.config")) File.WriteAllText("App.config", TextProvider.configContent);
-            if (!File.Exists("App.Release.config")) File.WriteAllText("App.Release.config", TextProvider.configContent);
-            if (!File.Exists("App.Debug.config")) File.WriteAllText("App.Debug.config", TextProvider.configContent);
+            if (!File.Exists("App.config"))
+                File.WriteAllText("App.config", TextProvider.configContent);
+            if (!File.Exists("App.Release.config"))
+                File.WriteAllText("App.Release.config", TextProvider.configContent);
+            if (!File.Exists("App.Debug.config"))
+                File.WriteAllText("App.Debug.config", TextProvider.configContent);
 
             var csproj = File.ReadAllText(csprojPath);
             var backupName = csprojPath.Insert(csprojPath.LastIndexOf('.'), "_backup");
@@ -27,7 +30,7 @@ namespace EasyTransformConfig
             if (!csproj.Contains(AppConfig))
                 csproj = csproj.Insert(csproj.LastIndexOf("<Import"), TextProvider.appConfig);
 
-            csproj = csproj.Insert(csproj.IndexOf("</Project>"), TextProvider.targets);
+            csproj = csproj.Insert(csproj.LastIndexOf("</Project>"), TextProvider.targets);
 
             File.WriteAllText(csprojPath, csproj);
         }
